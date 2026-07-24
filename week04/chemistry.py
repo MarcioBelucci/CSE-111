@@ -1,9 +1,21 @@
-def main():
-    periodic_table = make_periodic_table()
-    print(periodic_table)
+#I set a question to the user if the user wants to continue using the program to keep calculating. I used a While loop.
+from formula import parse_formula
+SYMBOL_INDEX = 0
+ATOMIC_MASS = 1
+continue_calculate = "y"
 
+def main():
+  chemical_formula = input("Enter the chemical formula: ")
+  sample_mass = float(input("Enter the sample size in grams: "))
+  periodic_table_dict = make_periodic_table()
+  symbol_quantity_list = parse_formula(chemical_formula, periodic_table_dict)
+  molar_mass = compute_molar_mass(symbol_quantity_list, periodic_table_dict)
+  number_of_moles = sample_mass / molar_mass
+  print(f"The molar mass is {molar_mass} grams/mole")
+  print(f"The number of moles is {number_of_moles:.5f} moles")
+    
 def make_periodic_table():
-    periodic_table_dict = {
+  periodic_table_dict = {
     # symbol: [name, atomic_mass]
     "Ac": ["Actinium", 227],
     "Ag": ["Silver", 107.8682],
@@ -100,7 +112,21 @@ def make_periodic_table():
     "Zn": ["Zinc", 65.38],
     "Zr": ["Zirconium", 91.224],
   }
-    return periodic_table_dict
+  return periodic_table_dict
 
-if __name__ == "__main__":
-  main()
+def compute_molar_mass(symbol_quantity_list, periodic_table_dict):
+  total_mass = 0
+  for item in symbol_quantity_list:
+    symbol_item = item[SYMBOL_INDEX]
+    quantity_item = item[1]
+    list_periodic_table = periodic_table_dict[symbol_item]
+    atomic_mass_periodic_table = list_periodic_table[ATOMIC_MASS] 
+    total_mass += atomic_mass_periodic_table * quantity_item
+  return total_mass
+
+while continue_calculate.lower() == "y":
+  if __name__ == "__main__":
+    main()
+
+  continue_calculate = input("\nDo you want to calculate another sample (y/n)? ")
+  
