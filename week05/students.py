@@ -1,13 +1,13 @@
 import csv
 def read_dictionary(filename, key_column_index):
-    s_dictionaty ={}
+    s_dictionary ={}
     with open(filename, 'rt') as csvfile:
         csvreader = csv.reader(csvfile, delimiter=",")
         next(csvreader)
         for row in csvreader:
             key_value = row[key_column_index]
-            s_dictionaty[key_value] = row
-    return s_dictionaty
+            s_dictionary[key_value] = row
+    return s_dictionary
 
 def main():
     KEY_INDEX = 0
