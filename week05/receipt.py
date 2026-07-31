@@ -1,3 +1,4 @@
+# I set a reminder of how many days until the New Years Sale begins (Jan 1) at the bottom of the receipt.
 import csv
 from datetime import datetime
 
