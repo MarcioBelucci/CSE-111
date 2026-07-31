@@ -16,6 +16,11 @@ key_column_index):
     except FileNotFoundError as file_err:
         print("Error: missing file")
         print(file_err)
+    except PermissionError as perm_err:
+        print(perm_err)
+        print("Check if you have the permission of the owner of the file!")
+    except KeyError as key_err:
+        print(f"Error: unknown product ID in the request.csv file {key_err}")
 
 def main():
     KEY_INDEX = 0
@@ -36,18 +41,16 @@ def main():
             csvreader_r = csv.reader(csvfile_r, delimiter=",")
             next(csvreader_r)
             for line in csvreader_r:
-                try:
-                    requested_product_key = line[KEY_INDEX]
-                    requested_quantity = int(line[QUANTITY_INDEX])
-                    product = products_dict[requested_product_key]
-                    product_name = product[NAME_INDEX]
-                    product_price = float(product[PRICE_INDEX])
-                    subtotal = subtotal + product_price * requested_quantity
-                    total_quantity += requested_quantity
+                requested_product_key = line[KEY_INDEX]
+                requested_quantity = int(line[QUANTITY_INDEX])
+                product = products_dict[requested_product_key]
+                product_name = product[NAME_INDEX]
+                product_price = float(product[PRICE_INDEX])
+                subtotal = subtotal + product_price * requested_quantity
+                total_quantity += requested_quantity
 
-                    print(f"{product_name}: {requested_quantity} - ${product_price:.2f}")
-                except KeyError as key_err:
-                    print(f"Error: unknown product ID in the request.csv file {key_err}")
+                print(f"{product_name}: {requested_quantity} - ${product_price:.2f}")
+
             print(f"\nTotal of items: {total_quantity}")
             print(f"Subtotatl: ${subtotal:.2f}")
             tax_amount = subtotal * 0.06
@@ -55,11 +58,16 @@ def main():
             total_price = tax_amount + subtotal
             print(f"Total: ${total_price:.2f}")
             print("\nThank you for shopping at the MB Store.")
-            print(today.strftime("%y-%m-%d %H:%M:%S"))
+            print(today.strftime("%a %b %e %H:%M:%S %Y"))
             print(f"We have {day_to_new_years_sale.days} days until the New Years Sale!")
     except PermissionError as perm_err:
         print(perm_err)
         print("Check if you have the permission of the owner of the file!")
+    except KeyError as key_err:
+        print(f"Error: unknown product ID in the request.csv file {key_err}")
+    except FileNotFoundError as file_err:
+            print("Error: missing file")
+            print(file_err)
 
 
 
