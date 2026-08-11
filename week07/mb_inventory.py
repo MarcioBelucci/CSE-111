@@ -74,7 +74,8 @@ def main():
     today = datetime.now()
     action = 0
     while action != 5:
-        print("\nPlease select one of the following options: \n1. Add itens\n2. View the inventory\n3. Deduct Inventory\n4. Reports\n5. Quit")
+        print("\nMB Inventory\n")
+        print("Please select one of the following options: \n1. Add itens\n2. View the inventory\n3. Deduct Inventory\n4. Reports\n5. Quit")
         try:
             action = int(input("Please enter an option: "))
         except ValueError as val_err:
@@ -96,11 +97,13 @@ def main():
                     if system_answer == True:
                         log_event(today.strftime("%a %b %e %H:%M:%S %Y"), product_code, product_quantity, "add", "week07/log.csv")
                         save_inventory(inventory_dict, "week07/inventory.csv")
+                        print("The item was added.")
                 except KeyError as key_err:
                     print(f"Error: unknown product ID in the request.csv file {key_err}")
 
             # Viewing which itens has in the inventory
             elif action == 2:
+                print("Here is the list of items in the inventory:")
                 for code, data in inventory_dict.items():
                     print(f"{code} - {data[NAME_INDEX]}: {data[QUANTITY_INDEX]} units")
                 
@@ -111,8 +114,9 @@ def main():
                 try:
                     system_answer = process_movement(inventory_dict, product_code, product_quantity, "subtract")
                     if system_answer == True:
-                        log_event(today.strftime("%a %b %e %H:%M:%S %Y"), product_code, product_quantity, "add", "week07/log.csv")
+                        log_event(today.strftime("%a %b %e %H:%M:%S %Y"), product_code, product_quantity, "subtract", "week07/log.csv")
                         save_inventory(inventory_dict, "week07/inventory.csv")
+                        print("The item was deducted.")
                 except KeyError as key_err:
                     print(f"Error: Unable to process: insufficient quantity or product not found. {key_err}")
 
@@ -122,6 +126,7 @@ def main():
                     with open("week07/log.csv", "rt") as file:
                         reader = csv.reader(file, delimiter=",")
                         next(reader)
+                        print("Here is the log list:")
                         for row in reader:
                             print(row)
                 except FileNotFoundError as file_err:
