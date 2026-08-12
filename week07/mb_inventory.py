@@ -20,25 +20,6 @@ def read_inventory(filename, key_column_index):
     except KeyError as key_err:
         print(f"Error: unknown product ID in the request.csv file {key_err}")
 
-#def read_request(filename, key_column_index):
-    request_dict = {}
-    try:
-        with open(filename, "rt") as csvfile:
-            csvreader = csv.reader(csvfile, delimiter=",")
-            next(csvreader)
-            for row in csvreader:
-                key_value = row[key_column_index]
-                request_dict[key_value] = row
-        return request_dict
-    except FileNotFoundError as file_err:
-        print("Error: missing file")
-        print(file_err)
-    except PermissionError as perm_err:
-        print(perm_err)
-        print("Check if you have the permission of the owner of the file!")
-    except KeyError as key_err:
-        print(f"Error: unknown product ID in the request.csv file {key_err}")
-
 def process_movement(product_dict, key, quantity, action_file):
     if action_file == "add":
         product_dict[key][1] = int(product_dict[key][1]) + quantity
@@ -71,11 +52,10 @@ def main():
     KEY_INDEX = 0
     NAME_INDEX = 0
     QUANTITY_INDEX = 1
-    today = datetime.now()
     action = 0
     while action != 5:
         print("\nMB Inventory\n")
-        print("Please select one of the following options: \n1. Add itens\n2. View the inventory\n3. Deduct Inventory\n4. Reports\n5. Quit")
+        print("Please select one of the following options: \n1. Add quantity to existing item\n2. View the inventory\n3. Deduct Inventory\n4. Reports\n5. Quit")
         try:
             action = int(input("Please enter an option: "))
         except ValueError as val_err:
@@ -88,39 +68,45 @@ def main():
             print("Sorry, that is not a valid option.")
         else:
             inventory_dict = read_inventory("week07/inventory.csv", KEY_INDEX)
-            # Adding itens in the inventory system
+            # Note: this option only updates the quantity of an EXISTING product.
+            # Creating new products is a planned future feature.
+            # Adding quantity of itens in the inventory system.
             if action == 1:
                 product_code = get_input("Enter the code of the product: ")
                 product_quantity = int(get_input("Enter the quantity of the product: "))
                 try:
                     system_answer = process_movement(inventory_dict, product_code, product_quantity, "add")
                     if system_answer == True:
+                        today = datetime.now()
                         log_event(today.strftime("%a %b %e %H:%M:%S %Y"), product_code, product_quantity, "add", "week07/log.csv")
                         save_inventory(inventory_dict, "week07/inventory.csv")
                         print("The item was added.")
                 except KeyError as key_err:
                     print(f"Error: unknown product ID in the request.csv file {key_err}")
 
-            # Viewing which itens has in the inventory
+            # Viewing which itens has in the inventory.
             elif action == 2:
                 print("Here is the list of items in the inventory:")
                 for code, data in inventory_dict.items():
                     print(f"{code} - {data[NAME_INDEX]}: {data[QUANTITY_INDEX]} units")
                 
-            # Deducting itens from inventory
+            # Deducting itens from inventory.
             elif action == 3:
                 product_code = get_input("Enter the code of the product: ")
                 product_quantity = int(get_input("Enter the quantity of the product: "))
                 try:
                     system_answer = process_movement(inventory_dict, product_code, product_quantity, "subtract")
                     if system_answer == True:
+                        today = datetime.now()
                         log_event(today.strftime("%a %b %e %H:%M:%S %Y"), product_code, product_quantity, "subtract", "week07/log.csv")
                         save_inventory(inventory_dict, "week07/inventory.csv")
                         print("The item was deducted.")
+                    else:
+                        print("Error: Unable to process: insufficient quantity.")
                 except KeyError as key_err:
-                    print(f"Error: Unable to process: insufficient quantity or product not found. {key_err}")
+                    print(f"Error: Unable to process: product not found. {key_err}")
 
-            # Reports of the inventory
+            # Reports of the inventory.
             elif action == 4:
                 try:
                     with open("week07/log.csv", "rt") as file:
@@ -128,7 +114,7 @@ def main():
                         next(reader)
                         print("Here is the log list:")
                         for row in reader:
-                            print(row)
+                            print(f"{row[0]} - {row[1]}: {row[3]} {row[2]} units.")
                 except FileNotFoundError as file_err:
                     print("Error: missing file")
                     print(file_err)

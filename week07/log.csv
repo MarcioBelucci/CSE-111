@@ -1,6 +1,4 @@
 Date, Code, Quantity, Action(Input/Output)
-2026-08-07 20:19:54.639348,P001,2,add
-2026-08-07 20:19:54.639348,P002,5,add
 Fri Aug  7 20:26:46 2026,P001,20,add
 Fri Aug  7 20:26:46 2026,P002,1,add
 Mon Aug 10 15:44:14 2026,P001,30,add
@@ -11,3 +9,7 @@ Mon Aug 10 15:55:15 2026,P001,1,add
 Mon Aug 10 15:58:42 2026,P001,5,add
 Mon Aug 10 16:00:36 2026,P001,10,add
 Mon Aug 10 16:00:36 2026,P001,20,subtract
+Tue Aug 11 14:17:36 2026,P002,5,add
+Tue Aug 11 14:17:52 2026,P001,2,subtract
+Tue Aug 11 21:31:28 2026,P003,15,add
+Tue Aug 11 21:31:41 2026,P003,10,subtract

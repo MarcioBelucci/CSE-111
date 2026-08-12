@@ -1,0 +1,37 @@
+Student Project Report
+
+Do the following:
+
+1. In the table below, list the dates, amount of time spent, and
+description of the work that you did on your project. Follow the example
+that is in the first row of the table below. Include the time you spent
+doing any of the following:
+    a. discussing your project with your teacher, tutor, or fellow students
+    b. researching by reading articles and watching applicable videos
+    c. designing your project by drawing diagrams and other applicable documents
+    d. writing experimental code
+    d. writing code for your project
+    e. writing test functions
+    f. debugging your code
+    g. any other activity that helped you complete your project
+
+=============Example====================
+            Time Spent
+   Date       (hours)   Description of Work
+----------  ----------  -------------------------
+2021-12-03      2.5     Wrote two program functions and two test functions
+2021-12-03      .5      Watched video on 
+=============Example====================
+
+   Date       (hours)   Description of Work
+----------  ----------  -------------------------
+2026-08-06	    2	    Project discussion and design with AI acting as a tutor: scope definition, data structure, CSV files, and function specifications.
+2026-08-07	    4	    Writing experimental code for the core functions (process_movement, save_inventory, log_event, read_inventory)
+2026-08-10	    4       Initial program testing and dictionary structure debugging. Debugging logic errors: KeyError, try/except placement, incorrect timestamps, and log formatting.
+2026-08-11      2       Writing 5 test functions using pytest, reviewing all functions, reviewing the project proposal.
+
+2. In Canvas, submit this completed text file, your Python program, your
+Python test file, and any project data files such as .txt and .csv files and
+link to video walkthrough if needed.
+
+NOTE: Current limitation: the program only allows adding quantity to existing products (identified by product code). Creating brand-new product entries is planned as a future update.
